@@ -22,16 +22,14 @@ def all_ads(request):
     args = {}
     if request.method == 'POST':
         filter_opt = request.POST['filter_opt']
-        print(filter_opt)
-    all_ads = Ad.objects.all().order_by('commentsNum')
-    page = request.GET.get('page', 1)
-
-    paginator = Paginator(all_ads, 10)
-    try:
-        ads = paginator.page(page)
-    except PageNotAnInteger:
-        ads = paginator.page(1)
-    except EmptyPage:
-        ads = paginator.page(paginator.num_pages)
+        args['filter']=filter_opt
+        if filter_opt == 'no_filter':
+            all_ads = Ad.objects.all().order_by('-likeNum')
+        else:
+            all_ads = Ad.objects.all().order_by('-' + filter_opt)
+        print('filter_opt:',filter_opt)
+    else:
+        all_ads = Ad.objects.all().order_by('-likeNum')
+    ads = all_ads[0:12]
     args['ads'] = ads
     return render(request, 'fbads/all-ads.html', args)
