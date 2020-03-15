@@ -30,6 +30,18 @@ def all_ads(request):
         print('filter_opt:',filter_opt)
     else:
         all_ads = Ad.objects.all().order_by('-likeNum')
-    ads = all_ads[0:12]
+    
+    # all_ads = User.objects.all()
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(all_ads, 12)
+    try:
+        ads = paginator.page(page)
+    except PageNotAnInteger:
+        ads = paginator.page(1)
+    except EmptyPage:
+        ads = paginator.page(paginator.num_pages)
+
+    # ads = all_ads[0:12]
     args['ads'] = ads
     return render(request, 'fbads/all-ads.html', args)
