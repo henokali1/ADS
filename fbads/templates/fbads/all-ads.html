@@ -99,6 +99,14 @@
             </div>
             {% endfor %}
         </div>
+        <br>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="?page={{ ads.previous_page_number }}">Previous</a></li>
+            <li class="page-item active"><a class="page-link" href="#"><span>{{ i }} <span class="sr-only">(current)</span></span></a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ ads.next_page_number }}">Next</a></li>
+          </ul>
+        </nav>
         {% if ads.has_other_pages %}
         <nav aria-label="Page navigation example">
   <ul class="pagination">
